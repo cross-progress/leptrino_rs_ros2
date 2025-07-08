@@ -1,0 +1,17 @@
+[package]
+name = "leptrino_rs_ros2"
+version = "0.1.0"
+authors = ["Yuki Onishi <yuki.st16@gmail.com>"]
+edition = "2021"
+
+[[bin]]
+name = "sensor_stream_publisher"
+path = "src/sensor_stream_publisher.rs"
+
+[dependencies]
+anyhow = "1"
+geometry_msgs = "*"
+leptrino_rs = { git = "https://github.com/cross-progress/leptrino_rs" }
+rclrs = "*"
+ringbuf = "0.4"
+std_msgs = "*"
