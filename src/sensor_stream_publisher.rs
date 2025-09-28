@@ -68,7 +68,7 @@ fn main() -> Result<(), rclrs::RclrsError> {
 
                 publisher.publish(msg)?;
             }
-            std::thread::sleep(Duration::from_micros(10));
+            std::thread::sleep(Duration::from_millis(1));
         }
     }
     Ok(())
