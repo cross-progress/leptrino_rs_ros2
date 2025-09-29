@@ -4,6 +4,7 @@ use leptrino_rs::buffer::*;
 use leptrino_rs::interface::Interface;
 use rclrs::*;
 use ringbuf::{producer::Producer, rb::LocalRb, storage::Heap};
+use std::sync::Arc;
 use std::time::Duration;
 
 fn main() -> Result<(), rclrs::RclrsError> {
@@ -11,6 +12,12 @@ fn main() -> Result<(), rclrs::RclrsError> {
     let executor = context.create_basic_executor();
 
     let node = executor.create_node("leptrino")?;
+
+    let ip_addr: MandatoryParameter<Arc<str>> = node
+        .declare_parameter("ip")
+        .default("192.168.100.1".into())
+        .mandatory()?;
+    println!("{:?}", ip_addr);
 
     let use_calibration = true;
 
@@ -21,9 +28,8 @@ fn main() -> Result<(), rclrs::RclrsError> {
     };
 
     const BUF_SIZE: usize = 2048;
-    const IP_ADDR: &str = "192.168.100.211";
     const READ_TIMEOUT: Duration = Duration::from_millis(1);
-    let mut interface = Interface::new(IP_ADDR, Some(READ_TIMEOUT)).unwrap();
+    let mut interface = Interface::new(&ip_addr.get(), Some(READ_TIMEOUT)).unwrap();
 
     interface.stop_streaming().unwrap();
     std::thread::sleep(Duration::from_secs(1));
